@@ -90,6 +90,6 @@ retention:
     repeat_every_days: 7              # refresh on-disk banner weekly once overdue
 
 resources:
-  ingest_service_memory_max: 512M
+  ingest_service_memory_max: 2G       # matches deploy/systemd ingest MemoryMax
   paper_service_memory_max: 1G
-  # systemd MemoryMax — OOM restart instead of silent leak
+  # systemd MemoryMax — OOM kill instead of silent leak; see docs/results/RESOURCES.md

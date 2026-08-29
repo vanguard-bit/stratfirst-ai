@@ -27,7 +27,7 @@ Strategies produce intents → rules allocator (regime + optional Gemini tilt) �
 | Nifty 50 BH CAGR / MaxDD / Sharpe | +12.9% / −19.0% / 0.92 |
 | Forward sample | sparse (few days) — not promotion-ready |
 
-Full write-up: [`docs/results/RESULTS.md`](docs/results/RESULTS.md).
+Full write-up: [`docs/results/RESULTS.md`](docs/results/RESULTS.md). Typical weekday footprint (≈1.2 GB peak ingest RAM, ≈2–3 core-hours/day): [`docs/results/RESOURCES.md`](docs/results/RESOURCES.md).
 
 ## What broke and how we recovered
 

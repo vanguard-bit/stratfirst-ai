@@ -155,6 +155,19 @@ User-level systemd timers provide the unattended weekday loop:
 | 15:20 | Backup MIS square-off |
 | 15:45 | EOD reconciliation, metrics, health, and dashboard |
 
+### Typical weekday footprint
+
+Short-lived oneshots plus a small always-on dashboard. Sampled from systemd
+accounting on a live paper day (~2026-08-28); full table in
+[`docs/results/RESOURCES.md`](docs/results/RESOURCES.md).
+
+| | Typical |
+|---|---|
+| Peak RAM | ~1.1–1.2 GB during each ingest/paper-live tick (cap 2 GB); EOD ~0.7 GB; dashboard ~60–120 MB |
+| CPU | Roughly 2–3 core-hours per session day (mostly minute ingest ticks) |
+| Disk | ~0.8 GB `data/store` + ~0.8 GB `.venv` on this host |
+| Network | Fyers session quotes; morning Gemini; MCP ≤2 calls/day |
+
 Enable the local timers with:
 
 ```bash
@@ -232,6 +245,7 @@ Near-term engineering (still paper):
 
 - [`SUBMISSION.md`](SUBMISSION.md) — Buildathon application packet
 - [`docs/results/RESULTS.md`](docs/results/RESULTS.md) — public redacted metrics
+- [`docs/results/RESOURCES.md`](docs/results/RESOURCES.md) — typical weekday CPU/RAM/disk footprint
 - [`docs/FAILURE_RECOVERY.md`](docs/FAILURE_RECOVERY.md) — what broke and how it was fixed
 - [`docs/paper/limitations-and-methods.md`](docs/paper/limitations-and-methods.md) — methods, results, and claim boundaries
 - [`docs/strategy-audit-matrix.md`](docs/strategy-audit-matrix.md) — strategy contracts and implementation audit
