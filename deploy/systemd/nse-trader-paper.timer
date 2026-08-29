@@ -1,0 +1,10 @@
+[Unit]
+Description=Run NSE Trader paper sim near MIS square-off (15:20 IST Mon–Fri)
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:20:00
+Persistent=true
+Unit=nse-trader-paper.service
+
+[Install]
+WantedBy=timers.target

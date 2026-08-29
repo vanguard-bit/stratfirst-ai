@@ -1,0 +1,10 @@
+[Unit]
+Description=Run NSE Trader morning LLM extract at 08:40 IST Mon-Fri
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 08:40:00
+Persistent=true
+Unit=nse-trader-llm.service
+
+[Install]
+WantedBy=timers.target

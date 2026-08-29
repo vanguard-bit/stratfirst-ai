@@ -1,0 +1,36 @@
+# Fee sources — values are NOT hardcoded here.
+# Run: python -m sim.fees.refresh
+# Registry written to data/fees/registry.json with source URLs and fetch timestamps.
+
+sources:
+  regulatory:
+    nse_stt:
+      url: https://www.nseindia.com/static/invest/first-time-investor-sebi-turnover-fees-stt-other-levies
+      type: nse_html_table
+    nse_stamp_duty:
+      url: https://www.nseindia.com/static/invest/first-time-investor-stamp-duty-charges-taxes
+      type: nse_html_table
+    nse_txn_circular:
+      url: https://nsearchives.nseindia.com/content/circulars/FA64232.pdf
+      type: nse_pdf
+      note: "Superseded by later circulars; refresh merges newest known circular"
+
+  broker_profiles:
+    fyers:
+      url: https://fyers.in/charges-list/
+      type: broker_html
+      segments: [equity_delivery, equity_intraday]
+    zerodha:
+      url: https://zerodha.com/charges
+      type: broker_html
+      segments: [equity_delivery, equity_intraday]
+
+  friction:
+    spread_slippage:
+      mode: measured
+      description: >
+        Bid-ask half-spread from live market depth (Fyers/Angel websocket).
+        No guessed bps defaults. Backtests require historical depth or
+        recorded spread snapshots in data/store/friction/.
+
+default_broker_profile: zerodha

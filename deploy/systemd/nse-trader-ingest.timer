@@ -1,0 +1,12 @@
+[Unit]
+Description=NSE Trader ingest every minute during market hours (IST)
+
+[Timer]
+# Every minute 09:00–15:59 Mon–Fri; Python skips outside 09:10–15:35
+OnCalendar=Mon..Fri *-*-* 09..15:*:00
+AccuracySec=15s
+Persistent=false
+Unit=nse-trader-ingest.service
+
+[Install]
+WantedBy=timers.target

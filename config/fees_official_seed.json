@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "description": "Official NSE equity charges snapshot. Used when live fetch fails. Every rate cites a public source — not guessed.",
+  "updated_at": "2026-03-01T00:00:00+00:00",
+  "sources": [
+    {
+      "id": "nse_circular_FA64232",
+      "url": "https://nsearchives.nseindia.com/content/circulars/FA64232.pdf",
+      "effective": "2024-10-01"
+    },
+    {
+      "id": "nse_stt_page",
+      "url": "https://www.nseindia.com/static/invest/first-time-investor-sebi-turnover-fees-stt-other-levies",
+      "effective": "2026-04-01"
+    },
+    {
+      "id": "nse_stamp_page",
+      "url": "https://www.nseindia.com/static/invest/first-time-investor-stamp-duty-charges-taxes",
+      "effective": "2020-07-01"
+    },
+    {
+      "id": "zerodha_charges",
+      "url": "https://zerodha.com/charges",
+      "effective": "2026-03-01"
+    }
+  ],
+  "segments": {
+    "equity_delivery": {
+      "segment": "equity_delivery",
+      "exchange": "NSE",
+      "components": [
+        {"name": "brokerage", "rate": 0, "rate_unit": "flat_inr", "side": "both", "source_id": "zerodha_charges", "source_label": "Zerodha: zero equity delivery brokerage"},
+        {"name": "stt", "rate": 0.1, "rate_unit": "percent", "side": "buy", "source_id": "nse_stt_page", "source_label": "NSE STT equity delivery buy"},
+        {"name": "stt", "rate": 0.1, "rate_unit": "percent", "side": "sell", "source_id": "nse_stt_page", "source_label": "NSE STT equity delivery sell"},
+        {"name": "exchange_txn", "rate": 0.00307, "rate_unit": "percent", "side": "both", "source_id": "zerodha_charges", "source_label": "Zerodha/NSE cash txn incl IPFT"},
+        {"name": "sebi", "rate": 10, "rate_unit": "per_crore", "side": "both", "source_id": "zerodha_charges", "source_label": "SEBI turnover fee Rs 10/crore"},
+        {"name": "stamp_duty", "rate": 0.015, "rate_unit": "percent", "side": "buy", "source_id": "nse_stamp_page", "source_label": "NSE stamp duty delivery"},
+        {"name": "gst", "rate": 18, "rate_unit": "percent_on_taxable", "side": "both", "source_id": "zerodha_charges", "source_label": "GST 18% on brokerage+exchange+SEBI"}
+      ]
+    },
+    "equity_intraday": {
+      "segment": "equity_intraday",
+      "exchange": "NSE",
+      "components": [
+        {"name": "brokerage", "rate": 20, "rate_unit": "flat_inr_or_pct", "side": "both", "source_id": "zerodha_charges", "source_label": "Zerodha: Rs 20 or 0.03% lower"},
+        {"name": "stt", "rate": 0.025, "rate_unit": "percent", "side": "sell", "source_id": "nse_stt_page", "source_label": "NSE STT equity intraday sell"},
+        {"name": "exchange_txn", "rate": 0.00307, "rate_unit": "percent", "side": "both", "source_id": "zerodha_charges", "source_label": "Zerodha/NSE cash txn incl IPFT"},
+        {"name": "sebi", "rate": 10, "rate_unit": "per_crore", "side": "both", "source_id": "zerodha_charges", "source_label": "SEBI turnover fee Rs 10/crore"},
+        {"name": "stamp_duty", "rate": 0.003, "rate_unit": "percent", "side": "buy", "source_id": "nse_stamp_page", "source_label": "NSE stamp duty intraday"},
+        {"name": "gst", "rate": 18, "rate_unit": "percent_on_taxable", "side": "both", "source_id": "zerodha_charges", "source_label": "GST 18% on brokerage+exchange+SEBI"}
+      ]
+    },
+    "broker_admin": {
+      "segment": "broker_admin",
+      "exchange": "NSE",
+      "components": [
+        {"name": "admin_square_off", "rate": 50, "rate_unit": "flat_inr", "side": "both", "source_id": "zerodha_charges", "source_label": "Zerodha: Rs 50 per executed MIS auto square-off order"}
+      ]
+    }
+  }
+}

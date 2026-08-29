@@ -1,0 +1,18 @@
+[Unit]
+Description=NSE Trader local PnL/EOD dashboard (Tailscale / configurable host)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=__PROJECT_ROOT__
+EnvironmentFile=-__PROJECT_ROOT__/.env
+ExecStartPre=/bin/mkdir -p __PROJECT_ROOT__/data/logs __PROJECT_ROOT__/data/state
+ExecStart=__PROJECT_ROOT__/deploy/serve-dashboard.sh
+Restart=on-failure
+RestartSec=5
+Nice=10
+StandardOutput=append:__PROJECT_ROOT__/data/logs/dashboard.log
+StandardError=append:__PROJECT_ROOT__/data/logs/dashboard.log
+
+[Install]
+WantedBy=default.target

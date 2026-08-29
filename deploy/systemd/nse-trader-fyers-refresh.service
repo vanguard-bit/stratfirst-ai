@@ -1,0 +1,14 @@
+[Unit]
+Description=NSE Trader Fyers access-token refresh
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=__PROJECT_ROOT__
+EnvironmentFile=-__PROJECT_ROOT__/.env
+ExecStartPre=/bin/mkdir -p __PROJECT_ROOT__/data/logs
+ExecStart=__PROJECT_ROOT__/.venv/bin/python main.py fyers-refresh
+Nice=10
+TimeoutStartSec=120
+StandardOutput=append:__PROJECT_ROOT__/data/logs/fyers-auth.log
+StandardError=append:__PROJECT_ROOT__/data/logs/fyers-auth.log

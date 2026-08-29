@@ -1,0 +1,14 @@
+[Unit]
+Description=NSE Trader EOD pipeline (paper day + health)
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=__PROJECT_ROOT__
+EnvironmentFile=-__PROJECT_ROOT__/.env
+ExecStartPre=/bin/mkdir -p __PROJECT_ROOT__/data/logs
+ExecStart=__PROJECT_ROOT__/.venv/bin/python main.py eod
+Nice=10
+TimeoutStartSec=600
+StandardOutput=append:__PROJECT_ROOT__/data/logs/eod.log
+StandardError=append:__PROJECT_ROOT__/data/logs/eod.log

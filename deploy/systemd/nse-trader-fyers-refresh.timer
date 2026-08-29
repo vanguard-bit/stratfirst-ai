@@ -1,0 +1,10 @@
+[Unit]
+Description=Refresh Fyers access token at 08:30 IST Mon–Fri
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 08:30:00
+Persistent=true
+Unit=nse-trader-fyers-refresh.service
+
+[Install]
+WantedBy=timers.target

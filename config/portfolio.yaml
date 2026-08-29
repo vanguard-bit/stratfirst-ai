@@ -1,0 +1,58 @@
+portfolio:
+  name: nse-paper-v1
+  total_capital: 2000000
+  currency: INR
+  universe: NIFTY50
+  market: NSE
+
+virtual_books:
+  per_strategy_notional: 1000000
+
+meta_allocator:
+  mode: rules
+  equal_weight_days: 10
+  rebalance:
+    schedule: daily
+    after: market_close
+    max_turnover: 0.20
+  constraints:
+    max_strategy_weight: 0.25
+    max_cluster_weight: 0.40
+    min_cash: 0.05
+    max_cash: 0.30
+  # Meta-only news tilt (strategies do not read llm_* state)
+  llm_tilt:
+    bull_threshold: 0.25
+    bear_threshold: -0.25
+    bull_bump_A: 0.12
+    bear_bump_G: 0.12
+    high_materiality_min: 5
+    high_bump_G: 0.05
+    high_scale_E: 0.9
+
+position_sizing:
+  risk_per_trade: 0.008
+  max_positions: 5
+  max_single_name: 0.20
+  leverage: 1.0
+
+risk:
+  g2_portfolio_drawdown_halt: 0.10
+  strategy_drawdown_zero: 0.15
+  intraday_flat_time: "15:20"          # BROKER MIS safety net
+  mis_strat_flat_time: "15:15"         # strat-owned MIS flat (paper-live)
+  circuit_fallback_pct: 0.10           # prev_close ±10% when Fyers UC/LC missing/0
+
+data:
+  engine: duckdb
+  store_path: data/store
+  base_timeframe: 1m
+  live_provider: fyers
+  eod_provider: nse_archives
+
+simulation:
+  broker_profile: zerodha
+  exchange: NSE
+  friction_mode: measured
+  fees_registry: data/fees/registry.json
+  fees_max_age_hours: 24

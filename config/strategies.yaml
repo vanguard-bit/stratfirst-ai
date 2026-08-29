@@ -1,0 +1,157 @@
+clusters:
+  A: { name: trend_momentum, max_weight: 0.40 }
+  B: { name: mean_reversion, max_weight: 0.40 }
+  C: { name: cross_sectional, max_weight: 0.30 }
+  D: { name: vol_regime, max_weight: 0.25 }
+  E: { name: intraday_micro, max_weight: 0.25 }
+  F: { name: calendar, max_weight: 0.15 }
+  G: { name: defensive, max_weight: 0.50 }
+
+strategies:
+  A1:
+    cluster: A
+    name: time_series_momentum
+    timeframe: 1D
+    product: CNC
+    enabled: true
+    params: { lookback_days: 252, exit_ma: 100 }
+  A2:
+    cluster: A
+    name: dual_ma_crossover
+    timeframe: 1H
+    product: MIS
+    enabled: true
+    params: { fast: 12, slow: 26 }
+  A3:
+    cluster: A
+    name: donchian_breakout
+    timeframe: 1D
+    product: CNC
+    enabled: true
+    params: { channel: 20 }
+  B1:
+    cluster: B
+    name: bollinger_zscore
+    timeframe: 15m
+    product: MIS
+    enabled: true
+    params: { window: 20, z_entry: -2.0, z_exit: 0.0 }
+  B2:
+    cluster: B
+    name: rsi2_revert
+    timeframe: 5m
+    product: MIS
+    enabled: true
+    params: { period: 2, buy: 10, sell: 65 }
+  B3:
+    cluster: B
+    name: gap_fade
+    timeframe: 15m
+    product: MIS
+    enabled: true
+    params: { gap_pct: 0.015, entry_cutoff: "09:45", exit_time: "10:30", stop_extra: 0.005 }
+  C1:
+    cluster: C
+    name: momentum_rank
+    timeframe: 1W
+    product: CNC
+    enabled: true
+    params: { top_n: 5, bottom_n: 5 }
+  C2:
+    cluster: C
+    name: low_vol_anomaly
+    timeframe: 1W
+    product: CNC
+    enabled: true
+    params: { lookback: 20, quintile: 1 }
+  C3:
+    cluster: C
+    name: mean_reversion_rank
+    timeframe: 1W
+    product: CNC
+    enabled: true
+    params: { lookback: 5, bottom_n: 5 }
+  D1:
+    cluster: D
+    name: vol_target_overlay
+    timeframe: 1D
+    product: CNC
+    enabled: false
+    params: { target_vol: 0.12, lookback: 20 }
+  D2:
+    cluster: D
+    name: vix_regime_filter
+    timeframe: 1D
+    product: CNC
+    enabled: false
+    params: { index: INDIAVIX, median_window: 20 }
+  D3:
+    cluster: D
+    name: atr_expansion_breakout
+    timeframe: 1H
+    product: MIS
+    enabled: true
+    params: { atr_window: 14, expansion: 1.5 }
+  E1:
+    cluster: E
+    name: opening_range_breakout
+    timeframe: 5m
+    product: MIS
+    enabled: false  # cut: exits fixed but cum still deeply red; edge unproven
+    params: { orb_minutes: 15 }
+  E2:
+    cluster: E
+    name: vwap_reversion
+    timeframe: 15m
+    product: MIS
+    enabled: false  # cut: post-exit still bled (−34% 24 Aug, ~300 fills/day)
+    params: { dev_pct: 0.005 }
+  E3:
+    cluster: E
+    name: power_hour_momentum
+    timeframe: 5m
+    product: MIS
+    enabled: false  # cut: with E1/E2; cluster E parked until clean paper week
+    params: { start_time: "14:15" }
+  F1:
+    cluster: F
+    name: turn_of_month
+    timeframe: 1D
+    product: CNC
+    enabled: true
+    params: { days_before: 2, days_after: 3 }
+  F2:
+    cluster: F
+    name: day_of_week
+    timeframe: 1D
+    product: CNC
+    enabled: true
+    params: { long_days: [1, 2], reduce_days: [0, 4] }
+  F3:
+    cluster: F
+    name: expiry_week_effect
+    timeframe: 1D
+    product: CNC
+    enabled: false
+    params: { reduce_factor: 0.5 }
+  G1:
+    cluster: G
+    name: trend_absent_cash
+    timeframe: 1D
+    product: CNC
+    enabled: false
+    params: { ma: 200 }
+  G2:
+    cluster: G
+    name: drawdown_circuit_breaker
+    timeframe: 1D
+    product: CNC
+    enabled: false
+    params: { max_dd: 0.10 }
+  G3:
+    cluster: G
+    name: low_beta_basket
+    timeframe: 1W
+    product: CNC
+    enabled: true
+    params: { beta_window: 60, bottom_n: 10 }

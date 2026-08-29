@@ -1,0 +1,38 @@
+# Secrets and local env
+.env
+.env.*
+!.env.example
+
+# Virtualenvs / caches
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.uv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.coverage
+htmlcov/
+.DS_Store
+
+# Runtime market / experiment artifacts (keep Python under data/)
+*.duckdb
+*.parquet
+*.log
+fyersDataSocket.log
+data/store/
+data/logs/
+data/state/
+data/archive/
+data/demo/
+!data/demo/.gitkeep
+
+# Editor / agent local
+.cursor/
+docs/superpowers/
+
+# Fee registry is regenerated via `python main.py refresh-fees --offline`
+data/fees/registry.json

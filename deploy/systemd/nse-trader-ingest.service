@@ -1,0 +1,20 @@
+[Unit]
+Description=NSE Trader live data ingest tick (Fyers or placeholder)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=__PROJECT_ROOT__
+EnvironmentFile=-__PROJECT_ROOT__/.env
+# Secrets are loaded via nse_trader.env.load_dotenv in-process (more reliable for JWTs)
+ExecStartPre=/bin/mkdir -p __PROJECT_ROOT__/data/logs
+ExecStart=__PROJECT_ROOT__/.venv/bin/python main.py paper --mode ingest --duration 45
+# 45s WS + bounded Fyers close (~2s) + paper-live. 75s was killing the 15:29–15:35
+# 1D catch-up when Fyers close_connection() hung after the cash close.
+TimeoutStartSec=120
+TimeoutStopSec=20
+Nice=10
+MemoryMax=2G
+StandardOutput=append:__PROJECT_ROOT__/data/logs/ingest.log
+StandardError=append:__PROJECT_ROOT__/data/logs/ingest.log

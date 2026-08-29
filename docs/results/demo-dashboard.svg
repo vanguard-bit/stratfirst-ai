@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-label="StratFirst AI offline demo report">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f1419"/>
+      <stop offset="55%" stop-color="#1a2330"/>
+      <stop offset="100%" stop-color="#121820"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="540" fill="url(#bg)"/>
+  <text x="48" y="64" fill="#e7ecf1" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="28" font-weight="600">StratFirst AI  offline demo</text>
+  <text x="48" y="96" fill="#9aa7b5" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14">No broker · No Gemini · No MCP · Synthetic figures are not investment evidence</text>
+  <rect x="48" y="120" width="864" height="48" rx="8" fill="#1e293b" stroke="#334155"/>
+  <text x="64" y="150" fill="#fbbf24" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="14">Rules allocator live · LightGBM shadow-only · 13 of 21 strategies enabled</text>
+  <rect x="48" y="192" width="410" height="220" rx="10" fill="#15202b" stroke="#243041"/>
+  <rect x="502" y="192" width="410" height="220" rx="10" fill="#15202b" stroke="#243041"/>
+  <text x="68" y="224" fill="#3d9cf0" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" letter-spacing="1">WEIGHTS WITH LLM TILT</text>
+  <text x="522" y="224" fill="#3d9cf0" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" letter-spacing="1">WEIGHTS WITHOUT LLM</text>
+  <text x="68" y="260" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">A1  0.18</text>
+  <text x="68" y="286" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">B1  0.15</text>
+  <text x="68" y="312" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">C1  0.12</text>
+  <text x="522" y="260" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">A1  0.14</text>
+  <text x="522" y="286" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">B1  0.15</text>
+  <text x="522" y="312" fill="#e7ecf1" font-family="IBM Plex Mono, monospace" font-size="14">G3  0.13</text>
+  <text x="68" y="360" fill="#9aa7b5" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13">Counterfactual L1 distance shown in live dual dump</text>
+  <text x="522" y="360" fill="#9aa7b5" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13">Execution: fill · circuit reject · missing quote</text>
+  <rect x="48" y="436" width="864" height="64" rx="10" fill="#15202b" stroke="#243041"/>
+  <text x="68" y="474" fill="#93c5fd" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15">python main.py demo  ’  data/demo/dashboard.html</text>
+</svg>

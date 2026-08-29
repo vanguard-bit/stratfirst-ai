@@ -1,0 +1,95 @@
+# Operational schedule — IST (Asia/Kolkata)
+# Use cron + systemd timers, NOT one 24/7 Python process.
+
+timezone: Asia/Kolkata
+
+market:
+  pre_open: "09:00"
+  open: "09:15"
+  close: "15:30"
+  mis_square_off: "15:20"
+
+# Short-lived jobs only. Each exits when done → no RAM leak risk.
+jobs:
+  ingest_live:
+    type: systemd_service          # only during market hours
+    active: "Mon-Fri 09:10-15:35"
+    restart: on-failure
+    command: python main.py paper --mode ingest
+
+  paper_sim:
+    type: systemd_service
+    active: "Mon-Fri 09:10-15:35"
+    command: python main.py paper --mode sim
+
+  eod_pipeline:
+    type: cron
+    schedule: "45 15 * * 1-5"     # 15:45 Mon-Fri — bhavcopy, meta, report
+    command: python main.py eod
+
+  llm_features:
+    type: cron
+    schedule: "40 8 * * 1-5"      # 08:40 — morning extract before first allocate
+    command: python main.py llm-extract --slot morning
+
+  health_check:
+    type: cron
+    schedule: "5 16 * * 1-5"      # 16:05 — scan logs + allocator diversity after EOD
+    command: python main.py health
+
+# Budgeted MCP enrichment for morning llm-extract (stdio clients; fail-soft)
+llm_enrichment:
+  enabled: true
+  max_calls_per_day: 2
+  max_calls_per_month: 40
+  finstack: true                  # get_morning_brief (1 call)
+  tapetide: true                  # get_market_news (1 call)
+  news_limit: 15
+
+  refresh_fees:
+    type: cron
+    schedule: "30 8 * * 1"        # Monday 08:30 — weekly fee registry
+    command: python main.py refresh-fees
+
+  backfill_weekly:
+    type: cron
+    schedule: "0 8 * * 6"         # Saturday 08:00 — extend historical data
+    command: python main.py backfill --years 5
+
+persistence:
+  state_dir: data/state            # checkpoints, last bar ts, open positions
+  store_dir: data/store            # duckdb, parquet
+  logs_dir: data/logs
+
+recovery:
+  on_startup: reconcile              # reload state, gap-fill bars, resume
+  max_reconnect_attempts: 5
+  stale_bar_alert_minutes: 5
+
+monitoring:
+  # Run: python main.py health  (also after EOD via cron)
+  allocation_history: data/state/meta_allocations.parquet
+  # Nested paper/live run dirs: experiments/{paper,live}/<run>/trades.parquet
+  trade_glob: data/store/experiments/**/trades.parquet
+  thresholds:
+    min_unique_strategies: 5           # flag if meta AI picks from too small a set
+    max_top_strategy_share: 0.50       # avg weight of dominant strategy
+    max_consecutive_same_top: 10       # same #1 strategy N IST days in a row
+    min_enabled_strategy_coverage: 0.30  # fraction of 21 strategies ever weighted
+    max_log_errors: 0
+    lookback_days: 20
+
+# Data retention — reminder only; never auto-delete or auto-archive.
+retention:
+  rotate_after_days: 180              # ~6 months — show reminder after this
+  auto_rotate: false                  # MUST stay false — rotation is manual only
+  reminder:
+    enabled: true
+    state_file: data/state/retention_reminder.json
+    banner_file: data/state/ROTATE_WHEN_READY.txt
+    repeat_every_days: 7              # refresh on-disk banner weekly once overdue
+
+resources:
+  ingest_service_memory_max: 512M
+  paper_service_memory_max: 1G
+  # systemd MemoryMax — OOM restart instead of silent leak

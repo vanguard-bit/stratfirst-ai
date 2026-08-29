@@ -1,0 +1,10 @@
+[Unit]
+Description=Run NSE Trader EOD at 15:45 IST Mon–Fri
+
+[Timer]
+OnCalendar=Mon..Fri *-*-* 15:45:00
+Persistent=true
+Unit=nse-trader-eod.service
+
+[Install]
+WantedBy=timers.target
