@@ -100,8 +100,8 @@ See `docs/paper/limitations-and-methods.md` and [`docs/results/RESULTS.md`](docs
 Python 3.12 is recommended. Prefer [uv](https://docs.astral.sh/uv/) for a fast clean install:
 
 ```bash
-git clone <public-repository-url>
-cd nse-trader   # or stratfirst-ai
+git clone https://github.com/vanguard-bit/stratfirst-ai.git
+cd stratfirst-ai
 uv sync
 source .venv/bin/activate
 python main.py refresh-fees --offline

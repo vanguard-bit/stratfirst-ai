@@ -2,7 +2,7 @@
 
 **Track:** Razorpay AI Buildathon — Open Track  
 **Repo name (recommended):** `stratfirst-ai`  
-**Public repository:** _TBD — add URL after publish_  
+**Public repository:** https://github.com/vanguard-bit/stratfirst-ai  
 **Pitch video:** _TBD — unlisted ≤5 min link_
 
 ## Problem (≈120 words)
