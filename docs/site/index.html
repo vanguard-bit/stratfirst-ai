@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>StratFirst AI — public glance</title>
+<style>
+  :root { --bg:#0f1419; --fg:#e7ecf1; --muted:#9aa7b5; --acc:#3d9cf0; --warn:#fbbf24; }
+  body { margin:0; font-family:"IBM Plex Sans","Segoe UI",sans-serif;
+    background:linear-gradient(160deg,#0f1419,#1a2330 55%,#121820); color:var(--fg); }
+  main { max-width:980px; margin:0 auto; padding:2rem 1.25rem 4rem; }
+  h1 { font-size:1.7rem; margin:0 0 .35rem; letter-spacing:-.02em; }
+  .sub,.muted { color:var(--muted); line-height:1.45; }
+  .banner { margin:1.25rem 0; padding:.85rem 1rem; border:1px solid #334155;
+    border-radius:8px; background:#1e293b88; color:var(--warn); }
+  h2 { font-size:.95rem; color:var(--acc); text-transform:uppercase; letter-spacing:.06em; margin:1.6rem 0 .5rem; }
+  table { width:100%; border-collapse:collapse; font-size:.92rem; }
+  th,td { text-align:left; padding:.4rem .5rem; border-bottom:1px solid #243041; }
+  th { color:var(--muted); font-weight:500; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:720px) { .grid { grid-template-columns:1fr; } }
+  code { color:#93c5fd; }
+  a { color:#93c5fd; }
+  .err { color:#f07178; }
+</style>
+</head>
+<body>
+<main>
+  <h1>StratFirst AI — public glance</h1>
+  <p class="sub">Judge-safe paper research summary. Live ops stay on the private dashboard.</p>
+  <div class="banner" id="disclaimer">Loading…</div>
+  <p class="muted" id="meta"></p>
+
+  <section>
+    <h2>Offline bake-off (frozen)</h2>
+    <div id="offline"></div>
+  </section>
+
+  <section class="grid">
+    <div>
+      <h2>Forward glance (redacted)</h2>
+      <div id="forward"></div>
+    </div>
+    <div>
+      <h2>LLM dual weights</h2>
+      <div id="llm"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Links</h2>
+    <p id="links" class="muted"></p>
+  </section>
+</main>
+<script>
+async function load() {
+  const el = (id) => document.getElementById(id);
+  try {
+    const res = await fetch('./glance.json', { cache: 'no-store' });
+    if (!res.ok) throw new Error('glance.json HTTP ' + res.status);
+    const g = await res.json();
+    el('disclaimer').textContent = g.disclaimer || '';
+    el('meta').innerHTML = [
+      'Generated <code>' + (g.generated_at || '') + '</code>',
+      'mode <code>' + (g.meta_allocator_mode || '') + '</code>',
+      'LightGBM <code>' + (g.lightgbm || '') + '</code>',
+      (g.counts ? (g.counts.enabled + '/' + g.counts.implemented + ' strategies enabled') : '')
+    ].filter(Boolean).join(' · ');
+
+    const off = g.offline || {};
+    const sleeves = (off.sleeves || []).map(s =>
+      '<tr><td>' + s.id + '</td><td>' + (s.cagr*100).toFixed(1) + '%</td><td>' +
+      (s.max_dd*100).toFixed(1) + '%</td><td>' + Number(s.sharpe).toFixed(2) + '</td></tr>'
+    ).join('');
+    el('offline').innerHTML =
+      '<p class="muted">AUC ' + off.mean_auc + ' · top5 precision ' + off.mean_top5_precision +
+      ' · OOF days ' + off.oof_days + '</p>' +
+      '<table><thead><tr><th>Sleeve</th><th>CAGR</th><th>MaxDD</th><th>Sharpe</th></tr></thead><tbody>' +
+      sleeves + '</tbody></table>';
+
+    const fg = g.forward_glance;
+    if (!fg) {
+      el('forward').innerHTML = '<p class="muted">No forward glance export yet (normal on clean clone).</p>';
+    } else {
+      const tracks = Object.entries(fg.tracks || {}).map(([k,v]) =>
+        '<tr><td>' + k + '</td><td>' + (v.today==null?'—':Number(v.today).toFixed(4)) +
+        '</td><td>' + (v.cum==null?'—':Number(v.cum).toFixed(4)) + '</td></tr>'
+      ).join('');
+      el('forward').innerHTML =
+        '<p class="muted">as_of <code>' + (fg.as_of||'') + '</code> · shadow top5 <code>' +
+        (fg.ml_top5||[]).join(', ') + '</code></p>' +
+        '<table><thead><tr><th>Track</th><th>Today</th><th>Cum</th></tr></thead><tbody>' +
+        tracks + '</tbody></table>';
+    }
+
+    const llm = g.llm_dual;
+    if (!llm) {
+      el('llm').innerHTML = '<p class="muted">No dual-weight dump for today.</p>';
+    } else {
+      const rows = (llm.top_deltas||[]).map(r =>
+        '<tr><td>' + r.strategy_id + '</td><td>' + (r.delta>=0?'+':'') + Number(r.delta).toFixed(4) + '</td></tr>'
+      ).join('');
+      el('llm').innerHTML =
+        '<p class="muted">L1 <code>' + Number(llm.l1_distance).toFixed(4) + '</code> · ' + (llm.note||'') + '</p>' +
+        '<table><thead><tr><th>Strategy</th><th>Δ weight</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+
+    const L = g.links || {};
+    el('links').innerHTML = [
+      L.repo ? '<a href="' + L.repo + '">Repository</a>' : '',
+      L.results ? '<a href="' + L.results + '">RESULTS.md</a>' : '',
+      L.submission ? '<a href="' + L.submission + '">SUBMISSION.md</a>' : ''
+    ].filter(Boolean).join(' · ');
+  } catch (e) {
+    el('disclaimer').innerHTML = '<span class="err">Failed to load glance.json: ' + e + '</span>';
+  }
+}
+load();
+</script>
+</body>
+</html>

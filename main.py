@@ -183,6 +183,10 @@ def main() -> None:
         "demo",
         help="Offline judge-safe demo (no broker/Gemini/MCP/network)",
     )
+    sub.add_parser(
+        "public-glance",
+        help="Export redacted docs/site glance for GitHub Pages",
+    )
 
     args = parser.parse_args()
 
@@ -485,6 +489,15 @@ def main() -> None:
         print(f"  L1 weight distance (LLM vs no-LLM): {result['l1_distance']:.4f}")
         print(f"  report: {result['report_json']}")
         print(f"  open:   {result['dashboard_html']}")
+    elif args.cmd == "public-glance":
+        from ops.public_glance import export_public_glance
+
+        payload = export_public_glance()
+        paths = payload.get("_paths") or {}
+        print("Public glance exported (redacted — safe for GitHub Pages).")
+        print(f"  {paths.get('index_html')}")
+        print(f"  {paths.get('glance_json')}")
+        print("Publish: ./deploy/publish-public-glance.sh")
 
 
 if __name__ == "__main__":

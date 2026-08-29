@@ -37,8 +37,14 @@ class TestDotenv:
         if model:
             assert model not in RETIRED_GEMINI_MODELS, f"Update GEMINI_MODEL — {model} is retired"
 
-    def test_gemini_api_key_present_in_env_file(self):
-        for line in (ROOT / ".env").read_text(encoding="utf-8").splitlines():
+    def test_gemini_api_key_slot_documented_in_env_example(self):
+        """Public clones have .env.example only — do not require a private .env in CI."""
+        example = (ROOT / ".env.example").read_text(encoding="utf-8")
+        assert "GEMINI_API_KEY=" in example
+        env_path = ROOT / ".env"
+        if not env_path.exists():
+            pytest.skip("No local .env (expected in CI / clean clones)")
+        for line in env_path.read_text(encoding="utf-8").splitlines():
             if line.startswith("GEMINI_API_KEY="):
                 assert line.split("=", 1)[1].strip(), "GEMINI_API_KEY is empty in .env"
                 return

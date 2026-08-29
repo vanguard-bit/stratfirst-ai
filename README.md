@@ -121,6 +121,7 @@ pip install -r requirements.txt
 Open `data/demo/dashboard.html` after `demo`. Public metrics and a safe visual:
 [`docs/results/RESULTS.md`](docs/results/RESULTS.md),
 [`docs/results/demo-dashboard.svg`](docs/results/demo-dashboard.svg).
+Live judge glance (GitHub Pages): https://vanguard-bit.github.io/stratfirst-ai/  
 Application packet: [`SUBMISSION.md`](SUBMISSION.md).
 
 Synthetic demo figures are **not** investment evidence. LightGBM stays shadow-only.
@@ -202,19 +203,7 @@ The detailed engineering story—including failures that initially produced misl
 
 **Status today:** local paper research only. Exchange/product/fee checks in the simulator (including SEBI-relevant market-structure constraints such as circuits, product type, and settlement-style behaviour) make paper fills *more honest*. They do **not** make the system ready to place real orders.
 
-### Public glance vs live EOD data
-
-GitHub Pages is a good fit for a **judge-safe static glance** (demo HTML, RESULTS, architecture SVG) — not for the live Tailscale dashboard that may carry host IPs or local paths.
-
-Ways to refresh Pages after EOD without leaking runtime state:
-
-| Approach | Pros | Cons |
-|---|---|---|
-| **A. Static only** | Zero leak risk; `docs/results/` + `main.py demo` artifacts | Manual refresh when you want new numbers |
-| **B. Scheduled Actions** | EOD (or nightly) job builds a **redacted** JSON/HTML and deploys to `gh-pages` | Needs a public-safe export schema; no tokens in artifacts |
-| **C. Push from local EOD** | Uses your already-running timers | Easy to over-share; keep a hard allowlist of fields |
-
-Recommended default: **A now**, **B later** once a `docs/results/public_glance.json` schema exists (dates, sleeve metrics, shadow top-5, dual-weight L1 — never books, fills, tokens, or absolute paths). Live paper ops stay on the local/Tailscale dashboard.
+**Public glance:** https://vanguard-bit.github.io/stratfirst-ai/ — redacted JSON/HTML under `docs/site/`. EOD refreshes local files; publish with `./deploy/publish-public-glance.sh` (only `docs/site/*`). Private Tailscale dashboard stays for ops.
 
 Promotion gates before any broker write path is even designed:
 
@@ -229,12 +218,11 @@ Promotion gates before any broker write path is even designed:
 
 Near-term engineering (still paper):
 
-1. Lock dependency installs with `uv.lock` and keep CI on `uv sync`.
-2. Lengthen forward bake-off until `sparse: false`; publish updated RESULTS only with dates and sample sizes.
-3. True cross-sectional portfolio replay (simultaneous long/short with shared capital).
-4. Historical bid/ask or conservative spread model in Cat-1 labels (close the fee-only gap).
-5. Optional: promote LightGBM from shadow → advisory weights only after G1; never skip shadow.
-6. Compliance checklist as a first-class artifact (disclosure, audit log, no advice claims) — still not a go-live.
+1. Lengthen forward bake-off until `sparse: false`; publish updated RESULTS only with dates and sample sizes.
+2. True cross-sectional portfolio replay (simultaneous long/short with shared capital).
+3. Historical bid/ask or conservative spread model in Cat-1 labels (close the fee-only gap).
+4. Optional: promote LightGBM from shadow → advisory weights only after G1; never skip shadow.
+5. Compliance checklist as a first-class artifact (disclosure, audit log, no advice claims) — still not a go-live.
 
 **Explicit non-goals for this phase:** live order placement, leveraged products beyond current MIS/CNC paper rules, unsupervised LLM trade generation, or marketing “proven profitable” claims.
 

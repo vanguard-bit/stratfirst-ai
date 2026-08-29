@@ -128,6 +128,13 @@ def run_eod(*, date: str | None = None) -> dict:
             "ml_top5": glance.get("ml_top5"),
             "warnings": glance.get("warnings"),
         }
+        try:
+            from ops.public_glance import export_public_glance
+
+            pub = export_public_glance(include_local=True)
+            bakeoff_info["public_glance"] = (pub.get("_paths") or {}).get("glance_json")
+        except Exception as pub_exc:  # noqa: BLE001
+            bakeoff_info["public_glance_error"] = str(pub_exc)
     except Exception as e:  # noqa: BLE001
         bakeoff_info = {"error": str(e)}
 
