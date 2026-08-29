@@ -9,6 +9,7 @@ EnvironmentFile=-__PROJECT_ROOT__/.env
 ExecStartPre=/bin/mkdir -p __PROJECT_ROOT__/data/logs
 ExecStart=__PROJECT_ROOT__/.venv/bin/python main.py eod
 Nice=10
-TimeoutStartSec=600
+TimeoutStartSec=900
 StandardOutput=append:__PROJECT_ROOT__/data/logs/eod.log
 StandardError=append:__PROJECT_ROOT__/data/logs/eod.log
+# Pages publish runs inside `main.py eod` (git push docs/site only) when health_ok.

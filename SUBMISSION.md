@@ -48,4 +48,4 @@ Optional live paper (credentials required): see README.
 
 ## Future plan (summary)
 
-Remain paper-only until pre-registered forward evidence clears economic and ops gates (see README “Future plan”). SEBI-relevant simulator rules improve honesty of fills; they are not a go-live. Public glance: https://vanguard-bit.github.io/stratfirst-ai/ (refresh via `public-glance` + `./deploy/publish-public-glance.sh`). Next concrete steps: grow non-sparse forward samples, true CS replay, spread-aware labels, then human-gated promotion of shadow ML — broker sandbox only after that.
+Remain paper-only until pre-registered forward evidence clears economic and ops gates (see README “Future plan”). SEBI-relevant simulator rules improve honesty of fills; they are not a go-live. Public glance: https://vanguard-bit.github.io/stratfirst-ai/ (weekday EOD auto-publishes when health is green). Next concrete steps: grow non-sparse forward samples, true CS replay, spread-aware labels, then human-gated promotion of shadow ML — broker sandbox only after that.

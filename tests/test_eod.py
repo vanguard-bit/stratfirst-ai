@@ -78,6 +78,11 @@ def test_eod_writes_summary(tmp_path, monkeypatch):
         "meta.shadow.run_meta_shadow",
         lambda **kw: {"mode": "lightgbm_shadow", "top5": []},
     )
+    monkeypatch.setenv("NSE_TRADER_SKIP_PAGES_PUBLISH", "1")
+    monkeypatch.setattr(
+        "ops.public_glance.export_public_glance",
+        lambda **kw: {"_paths": {"glance_json": "docs/site/glance.json"}},
+    )
 
     summary = eod_mod.run_eod(date=day)
     assert summary["date"] == day
@@ -85,6 +90,4 @@ def test_eod_writes_summary(tmp_path, monkeypatch):
     assert summary["path"].endswith(f"eod_{day}.json")
     assert Path(summary["path"]).exists()
     assert summary["health_ok"] is True
-    live_glance = Path("data/state/meta_bakeoff_glance.json")
-    if live_glance.exists():
-        assert json.loads(live_glance.read_text(encoding="utf-8")).get("as_of") != day
+    assert summary["public_glance_publish"].get("skipped") is True

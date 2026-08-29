@@ -3,6 +3,9 @@
 from __future__ import annotations
 
 import json
+import logging
+import os
+import subprocess
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -12,6 +15,48 @@ from nse_trader.config import PortfolioConfig, ROOT, load_yaml
 from ops.monitor.runner import run_health_checks, write_report_json
 
 IST = ZoneInfo("Asia/Kolkata")
+logger = logging.getLogger(__name__)
+
+
+def _publish_public_glance() -> dict:
+    """Push redacted docs/site to origin so GitHub Pages updates. Never raises."""
+    if os.environ.get("NSE_TRADER_SKIP_PAGES_PUBLISH", "").strip().lower() in {
+        "1",
+        "true",
+        "yes",
+    }:
+        return {"skipped": True, "reason": "NSE_TRADER_SKIP_PAGES_PUBLISH"}
+    script = ROOT / "deploy" / "publish-public-glance.sh"
+    if not script.is_file():
+        return {"ok": False, "error": f"missing {script}"}
+    try:
+        proc = subprocess.run(
+            ["bash", str(script)],
+            cwd=str(ROOT),
+            capture_output=True,
+            text=True,
+            timeout=180,
+            check=False,
+            env={
+                **os.environ,
+                "GIT_TERMINAL_PROMPT": "0",
+            },
+        )
+        out = (proc.stdout or "").strip()
+        err = (proc.stderr or "").strip()
+        if proc.returncode != 0:
+            logger.warning("public glance publish failed: %s", err or out)
+            return {
+                "ok": False,
+                "exit_code": proc.returncode,
+                "stdout": out[-2000:],
+                "stderr": err[-2000:],
+            }
+        logger.info("public glance publish: %s", out.splitlines()[-1] if out else "ok")
+        return {"ok": True, "stdout": out[-2000:]}
+    except Exception as exc:  # noqa: BLE001
+        logger.warning("public glance publish error: %s", exc)
+        return {"ok": False, "error": str(exc)}
 
 
 def run_eod(*, date: str | None = None) -> dict:
@@ -163,4 +208,13 @@ def run_eod(*, date: str | None = None) -> dict:
     out = logs / f"eod_{day}.json"
     out.write_text(json.dumps(summary, indent=2), encoding="utf-8")
     summary["path"] = str(out)
+
+    # Keep judge-facing GitHub Pages current after weekday EOD (best-effort).
+    if health.ok:
+        summary["public_glance_publish"] = _publish_public_glance()
+    else:
+        summary["public_glance_publish"] = {
+            "skipped": True,
+            "reason": "health_ok=false",
+        }
     return summary

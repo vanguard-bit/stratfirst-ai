@@ -205,7 +205,7 @@ The detailed engineering story—including failures that initially produced misl
 
 **Status today:** local paper research only. Exchange/product/fee checks in the simulator (including SEBI-relevant market-structure constraints such as circuits, product type, and settlement-style behaviour) make paper fills *more honest*. They do **not** make the system ready to place real orders.
 
-**Public glance:** https://vanguard-bit.github.io/stratfirst-ai/ — redacted JSON/HTML under `docs/site/`. EOD refreshes local files; publish with `./deploy/publish-public-glance.sh` (only `docs/site/*`). Private Tailscale dashboard stays for ops.
+**Public glance:** https://vanguard-bit.github.io/stratfirst-ai/ — redacted JSON/HTML under `docs/site/`. Weekday EOD exports and **pushes** that tree when health is green (`./deploy/publish-public-glance.sh`). Set `NSE_TRADER_SKIP_PAGES_PUBLISH=1` to disable. Private Tailscale dashboard stays for ops.
 
 Promotion gates before any broker write path is even designed:
 
