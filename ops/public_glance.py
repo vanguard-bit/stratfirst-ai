@@ -63,7 +63,7 @@ def _redact_local_glance(raw: dict[str, Any]) -> dict[str, Any]:
             continue
         tracks[str(name)] = {
             "today": block.get("today"),
-            "cum": block.get("cum"),
+            "cumulative": block.get("cum"),
         }
     clusters = {}
     for name, block in (raw.get("clusters") or {}).items():
@@ -71,7 +71,7 @@ def _redact_local_glance(raw: dict[str, Any]) -> dict[str, Any]:
             continue
         clusters[str(name)] = {
             "today": block.get("today"),
-            "cum": block.get("cum"),
+            "cumulative": block.get("cum"),
             "n": block.get("n"),
             "in_ml_top5": list(block.get("in_ml_top5") or [])[:5],
         }
@@ -84,7 +84,7 @@ def _redact_local_glance(raw: dict[str, Any]) -> dict[str, Any]:
                 "strategy_id": str(row.get("strategy_id")),
                 "cluster": str(row.get("cluster")) if row.get("cluster") is not None else None,
                 "today": row.get("today"),
-                "cum": row.get("cum"),
+                "cumulative": row.get("cum"),
             }
         )
     strategies = strategies[:21]
@@ -262,12 +262,12 @@ async function load() {
     } else {
       const tracks = Object.entries(fg.tracks || {}).map(([k,v]) =>
         '<tr><td>' + k + '</td><td>' + (v.today==null?'—':Number(v.today).toFixed(4)) +
-        '</td><td>' + (v.cum==null?'—':Number(v.cum).toFixed(4)) + '</td></tr>'
+        '</td><td>' + (v.cumulative==null?'—':Number(v.cumulative).toFixed(4)) + '</td></tr>'
       ).join('');
       el('forward').innerHTML =
         '<p class="muted">as_of <code>' + (fg.as_of||'') + '</code> · shadow top5 <code>' +
         (fg.ml_top5||[]).join(', ') + '</code></p>' +
-        '<table><thead><tr><th>Track</th><th>Today</th><th>Cum</th></tr></thead><tbody>' +
+        '<table><thead><tr><th>Track</th><th>Today</th><th>Cumulative</th></tr></thead><tbody>' +
         tracks + '</tbody></table>';
     }
 

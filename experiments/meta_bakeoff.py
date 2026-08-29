@@ -600,7 +600,7 @@ def format_glance(glance: dict[str, Any]) -> str:
         "tracks:",
     ]
     for name, t in (glance.get("tracks") or {}).items():
-        lines.append(f"  {name}: today={t.get('today')} cum={t.get('cum')}")
+        lines.append(f"  {name}: today={t.get('today')} cumulative={t.get('cum')}")
     lines.append(f"ml_top5: {glance.get('ml_top5')}")
     for r in (glance.get("ml_top5_reasons") or [])[:5]:
         lines.append(f"  reason: {r}")
@@ -623,14 +623,14 @@ def format_glance(glance: dict[str, Any]) -> str:
     lines.append("clusters:")
     for cl, b in sorted((glance.get("clusters") or {}).items()):
         lines.append(
-            f"  {cl}: today={b.get('today'):+.5f} cum={b.get('cum'):+.5f} ml={b.get('in_ml_top5')}"
+            f"  {cl}: today={b.get('today'):+.5f} cumulative={b.get('cum'):+.5f} ml={b.get('in_ml_top5')}"
         )
-    lines.append("strategies (top by cum):")
+    lines.append("strategies (top by cumulative):")
     for row in (glance.get("strategies") or [])[:12]:
         flag = "*" if row.get("in_ml_top5") else " "
         lines.append(
             f"  {flag}{row['strategy_id']} [{row.get('cluster')}] "
-            f"today={row.get('today'):+.5f} cum={row.get('cum'):+.5f}"
+            f"today={row.get('today'):+.5f} cumulative={row.get('cum'):+.5f}"
         )
     for w in glance.get("warnings") or []:
         lines.append(f"WARN: {w}")

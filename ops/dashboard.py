@@ -355,8 +355,8 @@ table.metrics td.num {{ font-variant-numeric: tabular-nums; text-align: right; }
     <h2>Clusters &amp; strategies</h2>
     <p class="sec-lede">From latest glance — star = in ML top-5.</p>
     <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:1.25rem">
-      <div><table id="clusters"><thead><tr><th>Cluster</th><th>Today</th><th>Cum</th><th>ML</th></tr></thead><tbody></tbody></table></div>
-      <div><table id="strats"><thead><tr><th></th><th>Strat</th><th>Cl</th><th>Today</th><th>Cum</th></tr></thead><tbody></tbody></table></div>
+      <div><table id="clusters"><thead><tr><th>Cluster</th><th>Today</th><th>Cumulative</th><th>ML</th></tr></thead><tbody></tbody></table></div>
+      <div><table id="strats"><thead><tr><th></th><th>Strat</th><th>Cl</th><th>Today</th><th>Cumulative</th></tr></thead><tbody></tbody></table></div>
     </div>
   </section>
 </div>
@@ -382,9 +382,9 @@ const tracks = (DATA.glance && DATA.glance.tracks) || {{}};
 const off = (DATA.offline_summary && DATA.offline_summary.policies) || {{}};
 const bh = (DATA.offline_summary && DATA.offline_summary.buyhold_nifty50) || {{}};
 const kpis = [
-  {{ label: "ML top5 (glance today)", val: tracks.ml_top5_eq && tracks.ml_top5_eq.today, sub: "cum " + fmt(tracks.ml_top5_eq && tracks.ml_top5_eq.cum) }},
-  {{ label: "Rand1 E (glance)", val: tracks.rand1_E && tracks.rand1_E.today, sub: "cum " + fmt(tracks.rand1_E && tracks.rand1_E.cum) }},
-  {{ label: "Rules capital", val: tracks.rules_capital && tracks.rules_capital.today, sub: "cum " + fmt(tracks.rules_capital && tracks.rules_capital.cum) }},
+  {{ label: "ML top5 (glance today)", val: tracks.ml_top5_eq && tracks.ml_top5_eq.today, sub: "cumulative " + fmt(tracks.ml_top5_eq && tracks.ml_top5_eq.cum) }},
+  {{ label: "Rand1 E (glance)", val: tracks.rand1_E && tracks.rand1_E.today, sub: "cumulative " + fmt(tracks.rand1_E && tracks.rand1_E.cum) }},
+  {{ label: "Rules capital", val: tracks.rules_capital && tracks.rules_capital.today, sub: "cumulative " + fmt(tracks.rules_capital && tracks.rules_capital.cum) }},
   {{ label: "OOF ML mean/day", val: off.model_top5_eq && off.model_top5_eq.mean_daily, sub: "vs rand1 " + fmt(off.rand1_E && off.rand1_E.mean_daily) }},
   {{ label: "Buy Nifty50 → sell end", val: bh.total_return, sub: (bh.buy_date || "?") + " → " + (bh.sell_date || "?") + " eq-wt hold" }},
 ];
@@ -538,7 +538,7 @@ function draw(seriesKey) {{
     "font-family": "IBM Plex Mono, monospace",
     transform: `rotate(-90 14 ${{T + (H - T - B) / 2}})`
   }});
-  yTitle.textContent = "cum return";
+  yTitle.textContent = "cumulative return";
   svg.appendChild(yTitle);
   const xTitle = el("text", {{
     x: L + (W - L - R) / 2, y: H - 8,
