@@ -1,5 +1,7 @@
 # StratFirst AI (`nse-trader`)
 
+[![test](https://github.com/vanguard-bit/stratfirst-ai/actions/workflows/test.yml/badge.svg)](https://github.com/vanguard-bit/stratfirst-ai/actions/workflows/test.yml)
+
 **A strategy-first research lab for testing whether bounded AI and ML can improve capital allocation across established NSE trading strategies—before any model is trusted with real money.**
 
 > Built for the Razorpay AI Buildathon Open Track. This is a local **paper-trading research system**. It never places live broker orders and does not promise investment returns.
