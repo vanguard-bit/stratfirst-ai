@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "StratFirst AI",
-  "generated_at": "2026-08-29T17:32:11.458172+05:30",
+  "generated_at": "2026-08-31T15:45:49.349998+05:30",
   "meta_allocator_mode": "rules",
   "lightgbm": "shadow_only",
   "paper_only": true,
@@ -55,8 +55,8 @@
     "disclaimer": "Offline fee-table costs only; not investment advice. LightGBM shadow-only."
   },
   "forward_glance": {
-    "as_of": "2026-08-28",
-    "written_at": "2026-08-28T15:45:38.016798+05:30",
+    "as_of": "2026-08-31",
+    "written_at": "2026-08-31T15:45:49.258767+05:30",
     "ml_top5": [
       "A2",
       "B1",
@@ -70,46 +70,46 @@
         "cumulative": 0.0
       },
       "ml_top5_eq": {
-        "today": 0.006753577776903728,
-        "cumulative": 0.008727158622462884
+        "today": -0.009062880715429161,
+        "cumulative": -0.00033572209296627714
       },
       "rand1_E": {
-        "today": -0.0014346509695324047,
-        "cumulative": 0.0030444910201010995
+        "today": -0.0008833069983719357,
+        "cumulative": 0.0021611840217291636
       },
       "eq_all": {
-        "today": -0.0014346509695324047,
-        "cumulative": 0.0030444910201010995
+        "today": -0.0008833069983719357,
+        "cumulative": 0.0021611840217291636
       },
       "rand5_eq": {
-        "today": 0.0007858290116588989,
+        "today": 0.0,
         "cumulative": 0.005264971001292403
       }
     },
     "clusters": {
       "A": {
-        "today": 0.010320759853972033,
-        "cumulative": 0.010320759853972033,
+        "today": 0.3333333333333333,
+        "cumulative": 0.34365409318730533,
         "n": 3,
         "in_ml_top5": [
           "A2"
         ]
       },
+      "F": {
+        "today": 0.00853613258209811,
+        "cumulative": 0.013477645156364603,
+        "n": 2,
+        "in_ml_top5": []
+      },
       "B": {
-        "today": -0.001315989484767061,
-        "cumulative": -2.689210609566987e-07,
+        "today": -0.009062880715429161,
+        "cumulative": -0.009063149636490117,
         "n": 3,
         "in_ml_top5": [
           "B1",
           "B3",
           "B2"
         ]
-      },
-      "F": {
-        "today": 0.00019638043537539298,
-        "cumulative": 0.004941512574266494,
-        "n": 2,
-        "in_ml_top5": []
       },
       "D": {
         "today": 0.0,
@@ -120,51 +120,63 @@
         ]
       },
       "C": {
-        "today": -0.011918756600080552,
+        "today": 0.0,
         "cumulative": -0.011918756600080552,
         "n": 3,
         "in_ml_top5": []
       },
       "G": {
-        "today": -0.00456266090391568,
+        "today": 0.0,
         "cumulative": -0.00456266090391568,
+        "n": 1,
+        "in_ml_top5": []
+      },
+      "?": {
+        "today": -0.9996,
+        "cumulative": -0.9996,
         "n": 1,
         "in_ml_top5": []
       }
     },
     "strategies": [
       {
+        "strategy_id": "A3",
+        "cluster": "A",
+        "today": 1.0,
+        "cumulative": 1.0
+      },
+      {
         "strategy_id": "A2",
         "cluster": "A",
-        "today": 0.030962279561916096,
+        "today": 0.0,
         "cumulative": 0.030962279561916096
+      },
+      {
+        "strategy_id": "F1",
+        "cluster": "F",
+        "today": 0.01712071683716854,
+        "cumulative": 0.01712071683716854
       },
       {
         "strategy_id": "B1",
         "cluster": "B",
-        "today": 0.0024065632006161327,
-        "cumulative": 0.030933002118775203
+        "today": -0.015757918898575876,
+        "cumulative": 0.015175083220199326
       },
       {
         "strategy_id": "F2",
         "cluster": "F",
-        "today": 0.00039276087075078596,
-        "cumulative": 0.009883025148532988
+        "today": -4.845167297232131e-05,
+        "cumulative": 0.009834573475560666
       },
       {
         "strategy_id": "B3",
         "cluster": "B",
-        "today": 0.008723135296620058,
+        "today": 0.0,
         "cumulative": 0.008723135296620058
       },
       {
         "strategy_id": "A1",
-        "cluster": "A",
-        "today": 0.0,
-        "cumulative": 0.0
-      },
-      {
-        "strategy_id": "A3",
         "cluster": "A",
         "today": 0.0,
         "cumulative": 0.0
@@ -176,45 +188,71 @@
         "cumulative": 0.0
       },
       {
-        "strategy_id": "F1",
-        "cluster": "F",
-        "today": 0.0,
-        "cumulative": 0.0
-      },
-      {
         "strategy_id": "C2",
         "cluster": "C",
-        "today": -0.00456266090391568,
+        "today": 0.0,
         "cumulative": -0.00456266090391568
       },
       {
         "strategy_id": "G3",
         "cluster": "G",
-        "today": -0.00456266090391568,
+        "today": 0.0,
         "cumulative": -0.00456266090391568
       },
       {
         "strategy_id": "C1",
         "cluster": "C",
-        "today": -0.01559680444816299,
+        "today": 0.0,
         "cumulative": -0.01559680444816299
       },
       {
         "strategy_id": "C3",
         "cluster": "C",
-        "today": -0.01559680444816299,
+        "today": 0.0,
         "cumulative": -0.01559680444816299
       },
       {
         "strategy_id": "B2",
         "cluster": "B",
-        "today": -0.015077666951537373,
-        "cumulative": -0.03965694417857813
+        "today": -0.011430723247711607,
+        "cumulative": -0.051087667426289736
+      },
+      {
+        "strategy_id": "E1",
+        "cluster": "?",
+        "today": -0.9996,
+        "cumulative": -0.9996
       }
     ],
     "warnings": []
   },
-  "llm_dual": null,
+  "llm_dual": {
+    "date": "2026-08-31",
+    "l1_distance": 0.0,
+    "top_deltas": [
+      {
+        "strategy_id": "B3",
+        "delta": 0.0
+      },
+      {
+        "strategy_id": "A1",
+        "delta": 0.0
+      },
+      {
+        "strategy_id": "F1",
+        "delta": 0.0
+      },
+      {
+        "strategy_id": "D3",
+        "delta": 0.0
+      },
+      {
+        "strategy_id": "F2",
+        "delta": 0.0
+      }
+    ],
+    "note": "Rules allocator with-LLM vs no-LLM counterfactual (paper only)."
+  },
   "links": {
     "repo": "https://github.com/vanguard-bit/stratfirst-ai",
     "results": "https://github.com/vanguard-bit/stratfirst-ai/blob/main/docs/results/RESULTS.md",
