@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "StratFirst AI",
-  "generated_at": "2026-09-01T20:11:12.365794+05:30",
+  "generated_at": "2026-09-01T20:11:35.319123+05:30",
   "meta_allocator_mode": "rules",
   "lightgbm": "shadow_only",
   "paper_only": true,
@@ -235,11 +235,11 @@
         "delta": 0.02867631667927928
       },
       {
-        "strategy_id": "B2",
+        "strategy_id": "B3",
         "delta": -0.0034537169723219546
       },
       {
-        "strategy_id": "B3",
+        "strategy_id": "B2",
         "delta": -0.0034537169723219546
       },
       {
@@ -247,7 +247,7 @@
         "delta": -0.0034537169723219546
       },
       {
-        "strategy_id": "F1",
+        "strategy_id": "F2",
         "delta": -0.0027734393868646123
       }
     ],
