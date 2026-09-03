@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "StratFirst AI",
-  "generated_at": "2026-09-02T15:45:37.273879+05:30",
+  "generated_at": "2026-09-03T15:45:36.926502+05:30",
   "meta_allocator_mode": "rules",
   "lightgbm": "shadow_only",
   "paper_only": true,
@@ -55,8 +55,8 @@
     "disclaimer": "Offline fee-table costs only; not investment advice. LightGBM shadow-only."
   },
   "forward_glance": {
-    "as_of": "2026-09-02",
-    "written_at": "2026-09-02T15:45:37.183479+05:30",
+    "as_of": "2026-09-03",
+    "written_at": "2026-09-03T15:45:36.832553+05:30",
     "ml_top5": [
       "A2",
       "B1",
@@ -66,30 +66,30 @@
     ],
     "tracks": {
       "rules_capital": {
-        "today": -0.0181555452266261,
-        "cumulative": -0.03741318848586268
+        "today": -0.011880743597393856,
+        "cumulative": -0.04929393208325654
       },
       "ml_top5_eq": {
-        "today": -0.005665301022084504,
-        "cumulative": -0.0005263147827093812
+        "today": 0.0008882520397501463,
+        "cumulative": 0.0003619372570407651
       },
       "rand1_E": {
-        "today": -0.0027310619773902338,
-        "cumulative": -0.0008824606472246882
+        "today": 0.0003272016574989991,
+        "cumulative": -0.0005552589897256891
       },
       "eq_all": {
-        "today": -0.0027310619773902338,
-        "cumulative": -0.0008824606472246882
+        "today": 0.0003272016574989991,
+        "cumulative": -0.0005552589897256891
       },
       "rand5_eq": {
-        "today": 0.0003866319756345501,
-        "cumulative": 0.008581948021295907
+        "today": -0.00015060240886754513,
+        "cumulative": 0.008431345612428361
       }
     },
     "clusters": {
       "B": {
-        "today": -0.00755373469611267,
-        "cumulative": -0.009476913187102429,
+        "today": 0.0014353400677794368,
+        "cumulative": -0.008041573119322992,
         "n": 3,
         "in_ml_top5": [
           "B3",
@@ -98,16 +98,16 @@
         ]
       },
       "A": {
-        "today": 0.0,
-        "cumulative": 0.009775814368549662,
+        "today": -0.0002510040147792419,
+        "cumulative": 0.00952481035377042,
         "n": 3,
         "in_ml_top5": [
           "A2"
         ]
       },
       "F": {
-        "today": 0.001076463925820812,
-        "cumulative": 0.01427468797886152,
+        "today": 2.310503674420284e-05,
+        "cumulative": 0.014297793015605721,
         "n": 2,
         "in_ml_top5": []
       },
@@ -120,13 +120,13 @@
         ]
       },
       "C": {
-        "today": -0.0026611999128233507,
+        "today": 0.0,
         "cumulative": -0.011918756600080552,
         "n": 3,
         "in_ml_top5": []
       },
       "G": {
-        "today": -0.0015498057761261278,
+        "today": 0.0,
         "cumulative": -0.00456266090391568,
         "n": 1,
         "in_ml_top5": []
@@ -136,32 +136,32 @@
       {
         "strategy_id": "B3",
         "cluster": "B",
-        "today": 0.008249668411596968,
+        "today": 0.0,
         "cumulative": 0.04667223768041717
       },
       {
         "strategy_id": "A2",
         "cluster": "A",
-        "today": 0.0,
-        "cumulative": 0.030962279561916096
-      },
-      {
-        "strategy_id": "F1",
-        "cluster": "F",
-        "today": 0.0021590865842156543,
-        "cumulative": 0.017921996307479267
-      },
-      {
-        "strategy_id": "F2",
-        "cluster": "F",
-        "today": -6.158732574030248e-06,
-        "cumulative": 0.010627379650243773
+        "today": -0.0007530120443377256,
+        "cumulative": 0.03020926751757837
       },
       {
         "strategy_id": "B1",
         "cluster": "B",
-        "today": -0.01743311450983761,
-        "cumulative": 0.008858050526380182
+        "today": 0.013588349185258475,
+        "cumulative": 0.022446399711638657
+      },
+      {
+        "strategy_id": "F1",
+        "cluster": "F",
+        "today": 4.621007348840568e-05,
+        "cumulative": 0.01796820638096767
+      },
+      {
+        "strategy_id": "F2",
+        "cluster": "F",
+        "today": 0.0,
+        "cumulative": 0.010627379650243773
       },
       {
         "strategy_id": "A1",
@@ -184,59 +184,59 @@
       {
         "strategy_id": "C2",
         "cluster": "C",
-        "today": -0.0015498057761261278,
+        "today": 0.0,
         "cumulative": -0.00456266090391568
       },
       {
         "strategy_id": "G3",
         "cluster": "G",
-        "today": -0.0015498057761261278,
+        "today": 0.0,
         "cumulative": -0.00456266090391568
       },
       {
         "strategy_id": "C1",
         "cluster": "C",
-        "today": -0.0032168969811719617,
+        "today": 0.0,
         "cumulative": -0.01559680444816299
       },
       {
         "strategy_id": "C3",
         "cluster": "C",
-        "today": -0.0032168969811719617,
+        "today": 0.0,
         "cumulative": -0.01559680444816299
       },
       {
         "strategy_id": "B2",
         "cluster": "B",
-        "today": -0.01347775799009737,
-        "cumulative": -0.08396102776810464
+        "today": -0.009282328981920164,
+        "cumulative": -0.0932433567500248
       }
     ],
     "warnings": []
   },
   "llm_dual": {
-    "date": "2026-09-02",
-    "l1_distance": 0.0,
+    "date": "2026-09-03",
+    "l1_distance": 0.08214104146996866,
     "top_deltas": [
       {
-        "strategy_id": "B3",
-        "delta": 0.0
+        "strategy_id": "G3",
+        "delta": 0.04107052073498438
       },
       {
-        "strategy_id": "C2",
-        "delta": 0.0
+        "strategy_id": "B3",
+        "delta": -0.005192824460745149
       },
       {
         "strategy_id": "B2",
-        "delta": 0.0
+        "delta": -0.005192824460745149
       },
       {
-        "strategy_id": "F2",
-        "delta": 0.0
+        "strategy_id": "B1",
+        "delta": -0.005192824460745149
       },
       {
-        "strategy_id": "D3",
-        "delta": 0.0
+        "strategy_id": "F1",
+        "delta": -0.0031471663398455335
       }
     ],
     "note": "Rules allocator with-LLM vs no-LLM counterfactual (paper only)."
