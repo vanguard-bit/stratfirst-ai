@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "project": "StratFirst AI",
-  "generated_at": "2026-09-07T15:45:36.982502+05:30",
+  "generated_at": "2026-09-08T15:45:37.517632+05:30",
   "meta_allocator_mode": "rules",
   "lightgbm": "shadow_only",
   "paper_only": true,
@@ -55,8 +55,8 @@
     "disclaimer": "Offline fee-table costs only; not investment advice. LightGBM shadow-only."
   },
   "forward_glance": {
-    "as_of": "2026-09-07",
-    "written_at": "2026-09-07T15:45:36.884034+05:30",
+    "as_of": "2026-09-08",
+    "written_at": "2026-09-08T15:45:37.422312+05:30",
     "ml_top5": [
       "A2",
       "B1",
@@ -66,30 +66,30 @@
     ],
     "tracks": {
       "rules_capital": {
-        "today": -0.021690357438123784,
-        "cumulative": -0.10456646615961984
+        "today": 0.03137044382956298,
+        "cumulative": -0.07319602233005687
       },
       "ml_top5_eq": {
-        "today": -0.008037426939788607,
-        "cumulative": 0.0017131152462394328
+        "today": -0.0053292138785670535,
+        "cumulative": -0.0036160986323276207
       },
       "rand1_E": {
-        "today": -0.0028229791193430955,
-        "cumulative": 0.000145828653178508
+        "today": -0.001938924147393136,
+        "cumulative": -0.001793095494214628
       },
       "eq_all": {
-        "today": -0.0028229791193430955,
-        "cumulative": 0.000145828653178508
+        "today": -0.001938924147393136,
+        "cumulative": -0.001793095494214628
       },
       "rand5_eq": {
-        "today": -0.00030494289369403696,
+        "today": 0.0,
         "cumulative": 0.009754351844481904
       }
     },
     "clusters": {
       "B": {
-        "today": -0.010716569253051476,
-        "cumulative": -0.008536820891072638,
+        "today": -0.007105618504756071,
+        "cumulative": -0.015642439395828708,
         "n": 3,
         "in_ml_top5": [
           "B3",
@@ -106,8 +106,8 @@
         ]
       },
       "F": {
-        "today": 0.000548468723190188,
-        "cumulative": 0.014826773894834326,
+        "today": -5.655053528140797e-06,
+        "cumulative": 0.014821118841306186,
         "n": 2,
         "in_ml_top5": []
       },
@@ -136,7 +136,7 @@
       {
         "strategy_id": "B3",
         "cluster": "B",
-        "today": -0.0015247144684701847,
+        "today": 0.0,
         "cumulative": 0.04514752321194699
       },
       {
@@ -146,22 +146,22 @@
         "cumulative": 0.03709972278962198
       },
       {
-        "strategy_id": "B1",
-        "cluster": "B",
-        "today": -0.015441909130331171,
-        "cumulative": 0.029466264336248944
-      },
-      {
         "strategy_id": "F1",
         "cluster": "F",
         "today": 0.0,
         "cumulative": 0.01796820638096767
       },
       {
+        "strategy_id": "B1",
+        "cluster": "B",
+        "today": -0.012609396499420694,
+        "cumulative": 0.01685686783682825
+      },
+      {
         "strategy_id": "F2",
         "cluster": "F",
-        "today": 0.001096937446380376,
-        "cumulative": 0.01168534140870098
+        "today": -1.1310107056281593e-05,
+        "cumulative": 0.011674031301644698
       },
       {
         "strategy_id": "A1",
@@ -208,35 +208,35 @@
       {
         "strategy_id": "B2",
         "cluster": "B",
-        "today": -0.01518308416035307,
-        "cumulative": -0.10022425022141385
+        "today": -0.00870745901484752,
+        "cumulative": -0.10893170923626136
       }
     ],
     "warnings": []
   },
   "llm_dual": {
-    "date": "2026-09-07",
-    "l1_distance": 0.05889704733635363,
+    "date": "2026-09-08",
+    "l1_distance": 0.057352633358558607,
     "top_deltas": [
       {
         "strategy_id": "G3",
-        "delta": 0.02944852366817688
-      },
-      {
-        "strategy_id": "B2",
-        "delta": -0.003723376555746491
-      },
-      {
-        "strategy_id": "B1",
-        "delta": -0.003723376555746491
+        "delta": 0.02867631667927928
       },
       {
         "strategy_id": "B3",
-        "delta": -0.003723376555746491
+        "delta": -0.0034537169723219546
       },
       {
-        "strategy_id": "F2",
-        "delta": -0.002256591851967568
+        "strategy_id": "B1",
+        "delta": -0.0034537169723219546
+      },
+      {
+        "strategy_id": "B2",
+        "delta": -0.0034537169723219546
+      },
+      {
+        "strategy_id": "F1",
+        "delta": -0.0027734393868646123
       }
     ],
     "note": "Rules allocator with-LLM vs no-LLM counterfactual (paper only)."
