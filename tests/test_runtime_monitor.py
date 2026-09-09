@@ -88,8 +88,21 @@ class TestStrategyIntegrity:
 
 
 class TestAllocatorDiversity:
+    @staticmethod
+    def _recent_base(*, days: int, lookback_days: int = 30) -> datetime:
+        """Anchor fixtures inside the monitor lookback window (relative to now)."""
+        # End a few days before "today" so wall-clock drift mid-run cannot exclude the last day.
+        end = datetime.now(tz=IST).replace(hour=12, minute=0, second=0, microsecond=0) - timedelta(
+            days=1
+        )
+        start = end - timedelta(days=max(days - 1, 0))
+        earliest = datetime.now(tz=IST) - timedelta(days=lookback_days - 1)
+        if start < earliest:
+            start = earliest.replace(hour=12, minute=0, second=0, microsecond=0)
+        return start
+
     def _stuck_history(self, path: Path, strategy: str = "A1", days: int = 15) -> None:
-        base = datetime(2026, 8, 1, tzinfo=IST)
+        base = self._recent_base(days=days)
         rows = []
         for d in range(days):
             ts = (base + timedelta(days=d)).isoformat()
@@ -97,7 +110,7 @@ class TestAllocatorDiversity:
         pd.DataFrame(rows).to_parquet(path, index=False)
 
     def _healthy_history(self, path: Path, strategies: list[str], days: int = 15) -> None:
-        base = datetime(2026, 8, 1, tzinfo=IST)
+        base = self._recent_base(days=days)
         rows = []
         for d in range(days):
             ts = (base + timedelta(days=d)).isoformat()
@@ -122,14 +135,14 @@ class TestAllocatorDiversity:
     def test_minute_snapshots_do_not_inflate_streak(self, tmp_path):
         """Hundreds of same-day minute ticks must count as one daily rebalance."""
         path = tmp_path / "alloc.parquet"
-        base = datetime(2026, 8, 20, 9, 15, tzinfo=IST)
+        day1 = self._recent_base(days=2).replace(hour=9, minute=15)
         rows = []
         for minute in range(120):
-            ts = (base + timedelta(minutes=minute)).isoformat()
+            ts = (day1 + timedelta(minutes=minute)).isoformat()
             for sid, w in [("A1", 0.4), ("B1", 0.3), ("C1", 0.2), ("D1", 0.05), ("G1", 0.05)]:
                 rows.append({"ts": ts, "strategy_id": sid, "weight": w})
         # Second day with a different top — streak stays 1.
-        day2 = datetime(2026, 8, 21, 9, 15, tzinfo=IST)
+        day2 = (day1 + timedelta(days=1)).replace(hour=9, minute=15)
         for sid, w in [("B1", 0.45), ("A1", 0.25), ("C1", 0.15), ("D1", 0.1), ("G1", 0.05)]:
             rows.append({"ts": day2.isoformat(), "strategy_id": sid, "weight": w})
         pd.DataFrame(rows).to_parquet(path, index=False)
