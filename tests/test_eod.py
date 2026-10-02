@@ -5,7 +5,7 @@ from __future__ import annotations
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from ops.market_hours import in_ingest_window
+from ops.market_hours import holiday_calendar_covers, in_ingest_window, is_trading_day
 
 
 def test_in_ingest_window_weekday_noon():
@@ -16,6 +16,24 @@ def test_in_ingest_window_weekday_noon():
 def test_in_ingest_window_before_open():
     ts = datetime(2026, 8, 10, 9, 0, tzinfo=ZoneInfo("Asia/Kolkata"))
     assert in_ingest_window(ts) is False
+
+
+def test_in_ingest_window_nse_holiday():
+    ts = datetime(2026, 10, 2, 12, 0, tzinfo=ZoneInfo("Asia/Kolkata"))  # Gandhi Jayanti (Fri)
+    assert in_ingest_window(ts) is False
+
+
+def test_is_trading_day():
+    ist = ZoneInfo("Asia/Kolkata")
+    assert is_trading_day(datetime(2026, 10, 1, 10, 0, tzinfo=ist)) is True
+    assert is_trading_day(datetime(2026, 10, 2, 10, 0, tzinfo=ist)) is False
+    assert is_trading_day(datetime(2026, 10, 3, 10, 0, tzinfo=ist)) is False  # Sat
+    assert is_trading_day(datetime(2026, 1, 15, 10, 0, tzinfo=ist)) is False  # MCGM election
+
+
+def test_holiday_calendar_covers_current_year():
+    assert holiday_calendar_covers(2026) is True
+    assert holiday_calendar_covers(1999) is False
 
 
 def test_eod_writes_summary(tmp_path, monkeypatch):

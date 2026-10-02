@@ -313,6 +313,12 @@ def main() -> None:
     elif args.cmd == "llm-extract":
         from datetime import date
 
+        from ops.market_hours import is_trading_day
+
+        if args.slot == "morning" and not args.offline and not is_trading_day():
+            print("LLM extract: skipped (not an NSE trading day)")
+            return
+
         from data.ingest.symbols import load_nifty50_symbols
         from features.headlines import fetch_headlines_map
         from features.llm_gemini import (
@@ -359,7 +365,7 @@ def main() -> None:
             from ops.market_hours import in_ingest_window
 
             if not in_ingest_window():
-                print("Ingest: skipped (outside Mon–Fri 09:10–15:35 IST)")
+                print("Ingest: skipped (not an NSE trading day, or outside 09:10–15:35 IST)")
                 return
             result = run_live_ingest(duration_sec=args.duration)
             print(f"Ingest: {result.get('mode')} — spreads={result.get('spread_rows', 0)}")
@@ -410,7 +416,11 @@ def main() -> None:
                 )
         else:
             from experiments.paper import run_paper
+            from ops.market_hours import is_trading_day
 
+            if not is_trading_day():
+                print("Paper sim: skipped (not an NSE trading day)")
+                return
             result = run_paper("manual", mode="sim")
             print(f"Paper day {result['date']}: {result['n_trades']} trade(s)")
     elif args.cmd == "forward":
@@ -425,7 +435,11 @@ def main() -> None:
             print(f"  {day['date']}: trades={day['n_trades']} health={'ok' if day['health_ok'] else 'FAIL'}")
     elif args.cmd == "eod":
         from experiments.eod import run_eod
+        from ops.market_hours import is_trading_day
 
+        if args.date is None and not is_trading_day():
+            print("EOD: skipped (not an NSE trading day; pass --date to force)")
+            return
         summary = run_eod(date=args.date)
         print(
             f"EOD {summary['date']}: trades={summary['n_trades']} "

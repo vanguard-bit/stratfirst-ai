@@ -447,6 +447,30 @@ def audit_bakeoff_metrics() -> HealthReport:
     return report
 
 
+def audit_holiday_calendar(today: datetime | None = None) -> HealthReport:
+    from ops.market_hours import holiday_calendar_covers
+
+    report = HealthReport()
+    year = (today or datetime.now(tz=IST)).year
+    if holiday_calendar_covers(year):
+        report.add(
+            Finding(
+                check="nse_holiday_calendar",
+                severity=Severity.OK,
+                message=f"NSE holiday calendar has {year}",
+            )
+        )
+    else:
+        report.add(
+            Finding(
+                check="nse_holiday_calendar",
+                severity=Severity.WARN,
+                message=f"config/nse_holidays.yaml has no {year} entries — jobs will run on NSE holidays",
+            )
+        )
+    return report
+
+
 def run_diagnose(*, day: str | None = None, cfg: MonitorConfig | None = None) -> dict:
     """
     One-shot agent triage bundle:
@@ -461,6 +485,7 @@ def run_diagnose(*, day: str | None = None, cfg: MonitorConfig | None = None) ->
     extra = HealthReport()
     extra.merge(audit_systemd(systemd))
     extra.merge(audit_artifacts(artifacts))
+    extra.merge(audit_holiday_calendar())
 
     combined = HealthReport()
     combined.merge(health)

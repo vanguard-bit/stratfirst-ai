@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime, time
+from datetime import date, datetime, time
+from functools import lru_cache
 from zoneinfo import ZoneInfo
 
 from nse_trader.config import load_yaml
@@ -34,9 +35,34 @@ def is_weekday(ts: datetime | None = None) -> bool:
     return stamp.weekday() < 5
 
 
+@lru_cache(maxsize=1)
+def _holiday_calendar() -> dict[int, dict[date, str]]:
+    raw = load_yaml("nse_holidays.yaml") or {}
+    return {
+        int(year): {date.fromisoformat(str(d)): str(name) for d, name in (days or {}).items()}
+        for year, days in raw.items()
+    }
+
+
+def holiday_calendar_covers(year: int) -> bool:
+    return bool(_holiday_calendar().get(year))
+
+
+def nse_holiday(ts: datetime | date | None = None) -> str | None:
+    """Holiday name if the IST date is a weekday NSE trading holiday."""
+    stamp = ts or now_ist()
+    day = stamp.astimezone(IST).date() if isinstance(stamp, datetime) else stamp
+    return _holiday_calendar().get(day.year, {}).get(day)
+
+
+def is_trading_day(ts: datetime | date | None = None) -> bool:
+    stamp = ts or now_ist()
+    return stamp.weekday() < 5 and nse_holiday(stamp) is None
+
+
 def in_ingest_window(ts: datetime | None = None) -> bool:
     stamp = ts or now_ist()
-    if not is_weekday(stamp):
+    if not is_trading_day(stamp):
         return False
     start, end = ingest_bounds()
     return start <= stamp.time() <= end
